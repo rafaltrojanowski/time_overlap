@@ -124,6 +124,34 @@ RSpec.describe TimeOverlap do
           })
   end
 
+  xit "there is a bug in overlaps" do
+    expect(TimeOverlap.count(
+              from: 9,
+              to: 17,
+              time_zone: '+01:00',
+              my_time_zone: 'Bangkok',
+              min_overlap: 2
+            )
+          ).to eq({
+            :full_overlap => {
+              :end =>   Time.parse('2019-02-09 23:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 15:00:00.000000000 +0700'),
+            },
+            :original => {
+              :end =>   Time.parse('2019-02-09 17:00:00.000000000 +0100'),
+              :start => Time.parse('2019-02-09 09:00:00.000000000 +0100'),
+            },
+            :overlap_1 => {
+              :end =>   Time.parse('2019-02-09 17:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 13:00:00.000000000 +0700')
+            },
+            :overlap_2 => {
+              :end =>   Time.parse('2019-02-10 05:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 21:00:00.000000000 +0700')
+            },
+          })
+  end
+
   it "1 hour call within 2 hours time span" do
     expect(TimeOverlap.count(
               from: 17,
