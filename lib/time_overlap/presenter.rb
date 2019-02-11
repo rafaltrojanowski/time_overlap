@@ -1,8 +1,9 @@
 module TimeOverlap
   class Presenter
 
-    def initialize(data)
-      @data = data
+    def initialize(data, format = '%T%:z')
+      @data   = data
+      @format = format
     end
 
     def self.print(*args)
@@ -12,23 +13,29 @@ module TimeOverlap
 
     def print
       puts "Original"
-      puts "#{@data[:original][:start]} - #{@data[:original][:end]}"
+      puts "#{formated_time(@data[:original][:start])} - #{formated_time(@data[:original][:end])}"
       separator
 
       puts "Full overlap"
-      puts "#{@data[:full_overlap][:start]} - #{@data[:full_overlap][:end]}"
+      puts "#{formated_time(@data[:full_overlap][:start])} - #{formated_time(@data[:full_overlap][:end])}"
       separator
 
       puts "Overlap 1"
-      puts "#{@data[:overlap_1][:start]} - #{@data[:overlap_2][:end]}"
+      puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_2][:end])}"
       separator
 
       puts "Overlap 2"
-      puts "#{@data[:overlap_1][:start]} - #{@data[:overlap_2][:end]}"
+      puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_2][:end])}"
     end
+
+    private
 
     def separator
       puts "_" * 40
+    end
+
+    def formated_time(time)
+      time.strftime("%T %:z")
     end
   end
 end
