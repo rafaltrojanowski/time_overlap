@@ -11,20 +11,20 @@ module TimeOverlap
     end
 
     def print
-      puts "Original"
+      puts "Original:"
       puts "#{formated_time(@data[:original][:start])} - #{formated_time(@data[:original][:end])}"
       separator
 
-      puts "Full overlap"
+      puts "Full overlap:"
       puts "#{formated_time(@data[:full_overlap][:start])} - #{formated_time(@data[:full_overlap][:end])}"
       separator
 
-      puts "Overlap 1"
-      puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_2][:end])}"
+      puts "Overlap 1:"
+      puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_1][:end])}"
       separator
 
-      puts "Overlap 2"
-      puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_2][:end])}"
+      puts "Overlap 2:"
+      puts "#{formated_time(@data[:overlap_2][:start])} - #{formated_time(@data[:overlap_2][:end])}"
 
       @data
     end
