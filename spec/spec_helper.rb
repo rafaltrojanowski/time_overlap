@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "timecop"
 require "time_overlap"
 
 RSpec.configure do |config|
