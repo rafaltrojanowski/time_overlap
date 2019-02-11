@@ -1,5 +1,6 @@
 require "time_overlap/version"
 require "time_overlap/presenter"
+require "time_overlap/cli"
 require 'time'
 require 'active_support/core_ext/time'
 
@@ -64,6 +65,5 @@ module TimeOverlap
     }
 
     Presenter.print(data)
-    data
   end
 end

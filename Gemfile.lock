@@ -3,6 +3,7 @@ PATH
   specs:
     time_overlap (0.1.0)
       activesupport
+      thor
 
 GEM
   remote: https://rubygems.org/
@@ -31,6 +32,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    thor (0.20.3)
     thread_safe (0.3.6)
     timecop (0.9.1)
     tzinfo (1.2.5)

@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require "time_overlap"
+
+TimeOverlap::CLI.start(ARGV)
