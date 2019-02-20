@@ -60,8 +60,7 @@ module TimeOverlap
       }
 
       check
-      Presenter.new(@data).print
-
+      Presenter.new(@data).generate_output
       @data
     end
 
