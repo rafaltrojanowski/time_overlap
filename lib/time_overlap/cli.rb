@@ -12,7 +12,7 @@ module TimeOverlap
        4       -> min_overlap (hours, integer)
       "
     def count(from, to, time_zone, my_time_zone, min_overlap)
-      TimeOverlap.count(
+      TimeOverlap::Calculator.count(
         from: from.to_i,
         to: to.to_i,
         time_zone: time_zone,

@@ -14,7 +14,7 @@ module TimeOverlap
       print"|AM| "
       # puts (s.hour..e.hour).inspect
 
-      (0..24).each do |hour|
+      (0..23).each do |hour|
         print ' |NOON| ' if hour == 12
 
         if s.hour < e.hour
@@ -88,7 +88,7 @@ module TimeOverlap
     end
 
     def formated_time(time)
-      time#.strftime("%T %:z")
+      time.strftime("%T %:z")
     end
   end
 end
