@@ -1,4 +1,4 @@
-RSpec.describe TimeOverlap do
+RSpec.describe TimeOverlap::Calculator do
 
   before do
     Timecop.freeze(Time.local(2019, 02, 9, 10, 0, 0))
@@ -13,7 +13,7 @@ RSpec.describe TimeOverlap do
   end
 
   it "EST (-7:00) and Bangkok(+7:00)" do
-    expect(TimeOverlap.count(
+    expect(described_class.count(
               from: 10,
               to: 18,
               time_zone: '-07:00',
@@ -41,7 +41,7 @@ RSpec.describe TimeOverlap do
   end
 
   it "EST (GMT-5) and Bangkok(+7:00)" do
-    expect(TimeOverlap.count(
+    expect(described_class.count(
               from: 8,
               to: 18,
               time_zone: 'EST', #"-05:00"
@@ -59,7 +59,7 @@ RSpec.describe TimeOverlap do
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-10 00:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 16:00:00.000000000 +0700')
+              :start => Time.parse('2019-02-09 14:00:00.000000000 +0700')
             },
             :overlap_2 => {
               :end =>   Time.parse('2019-02-10 12:00:00.000000000 +0700'),
@@ -69,7 +69,7 @@ RSpec.describe TimeOverlap do
   end
 
   it "GTM+0 and Bangkok (+7:00)" do
-    expect(TimeOverlap.count(
+    expect(described_class.count(
               from: 8,
               to: 16,
               time_zone: '+00:00',
@@ -97,7 +97,7 @@ RSpec.describe TimeOverlap do
   end
 
   it "Bangkok (+7:00) - Warsaw (+1:00)" do
-    expect(TimeOverlap.count(
+    expect(described_class.count(
               from: 9,
               to: 17,
               time_zone: '+07:00',
@@ -124,8 +124,8 @@ RSpec.describe TimeOverlap do
           })
   end
 
-  xit "there is a bug in overlaps" do
-    expect(TimeOverlap.count(
+  it "Warsaw (+01:00) - Bangkok (+07:00)" do
+    expect(described_class.count(
               from: 9,
               to: 17,
               time_zone: '+01:00',
@@ -143,7 +143,7 @@ RSpec.describe TimeOverlap do
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-09 17:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 13:00:00.000000000 +0700')
+              :start => Time.parse('2019-02-09 09:00:00.000000000 +0700')
             },
             :overlap_2 => {
               :end =>   Time.parse('2019-02-10 05:00:00.000000000 +0700'),
@@ -153,7 +153,7 @@ RSpec.describe TimeOverlap do
   end
 
   it "1 hour call within 2 hours time span" do
-    expect(TimeOverlap.count(
+    expect(described_class.count(
               from: 17,
               to: 19,
               time_zone: '+02:00',
