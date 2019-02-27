@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    time_overlap (0.1.0)
+    time_overlap (0.1.1)
       activesupport
       thor
 
@@ -49,4 +49,4 @@ DEPENDENCIES
   timecop
 
 BUNDLED WITH
-   1.16.5
+   1.17.2
