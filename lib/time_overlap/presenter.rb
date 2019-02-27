@@ -48,6 +48,7 @@ module TimeOverlap
     def timeline(start_time, end_time)
       print AM
 
+
       (0..23).each do |hour|
         print NOON if hour == 12
         print SIX_AM if hour == 6
@@ -76,7 +77,11 @@ module TimeOverlap
             end
           else
             if (end_time.hour..start_time.hour).cover?(hour)
-              print EMPTY_SLOT
+              if (start_time.hour == hour)
+                print AVAILABLE_SLOT
+              else
+                print EMPTY_SLOT
+              end
             else
               if end_time.hour != hour
                 print AVAILABLE_SLOT
