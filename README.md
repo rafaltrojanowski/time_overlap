@@ -1,8 +1,17 @@
 # TimeOverlap
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/time_overlap`. To experiment with that code, run `bin/console` for an interactive prompt.
+Simple command line tool that allows to find time overlap between two time zones.
 
-TODO: Delete this and the text above, and describe your gem
+Instead visiting pages like https://www.timeanddate.com/worldclock/converter.html
+to convert time to get an information when would you need to start and finish your work
+you can type in your console:
+
+```
+$ time_overlap count 8 16 +00:00 Bangkok 4
+```
+
+Assuming that you are in Bangkok and the target time zone is UTC +0
+and you want to cover 4 hours from 8:00 to 16:00.
 
 ## Installation
 
@@ -22,7 +31,6 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
 
 ## Development
 
