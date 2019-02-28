@@ -15,6 +15,8 @@ and you want to cover 4 hours - from 8:00 to 16:00.
 
 In most cases it suggests 2 options (cover first four hours: 8-12 or last: 12-16).
 
+More info: https://www.daxx.com/blog/offshore-team/time-difference-offshore-development
+
 ## Installation
 
 Add this line to your application's Gemfile:
