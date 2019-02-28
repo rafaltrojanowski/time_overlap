@@ -179,4 +179,41 @@ RSpec.describe TimeOverlap::Calculator do
             },
           })
   end
+
+  it "when min overlap is greater than duration" do
+    expect {
+      described_class.count(
+        from: 17,
+        to: 19,
+        time_zone: '+02:00',
+        my_time_zone: 'Bangkok',
+        min_overlap: 4
+      )
+    }.to raise_error('Min overlap must be lower that duration')
+  end
+
+  it "only displays overlap 1 when overlap 2 is the same" do
+    # https://gist.github.com/lucascaton/bec400d18f7dcda61275
+    expect(
+      described_class.count(
+        from: 9,
+        to: 17,
+        time_zone: '-11:00',
+        my_time_zone: 'Tokelau Is.', # +13:00
+        min_overlap: 8
+      )).to eq({
+        :full_overlap => {
+          :end =>   Time.parse('2019-02-10 17:00:00.000000000 +1300'),
+          :start => Time.parse('2019-02-10 09:00:00.000000000 +1300'),
+        },
+        :original => {
+          :end =>   Time.parse('2019-02-09 17:00:00.000000000 -1100'),
+          :start => Time.parse('2019-02-09 09:00:00.000000000 -1100'),
+        },
+        :overlap_1 => {
+          :end =>   Time.parse('2019-02-10 17:00:00.000000000 +1300'),
+          :start => Time.parse('2019-02-10 09:00:00.000000000 +1300')
+        }
+      })
+  end
 end

@@ -29,9 +29,13 @@ module TimeOverlap
       puts "Overlap 1:"
       puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_1][:end])}"
       timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
-      puts "Overlap 2:"
-      puts "#{formated_time(@data[:overlap_2][:start])} - #{formated_time(@data[:overlap_2][:end])}"
-      timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
+
+      if @data[:overlap_2]
+        puts "Overlap 2:"
+        puts "#{formated_time(@data[:overlap_2][:start])} - #{formated_time(@data[:overlap_2][:end])}"
+        timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
+      end
+
       @data
     end
 

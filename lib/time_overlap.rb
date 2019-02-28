@@ -59,9 +59,12 @@ module TimeOverlap
         }
       }
 
-      check
+      if x_start_time == y_start_time && x_end_time == y_end_time
+        @data.delete(:overlap_2)
+      end
+
+      throw_errors!
       Presenter.new(@data).generate_output
-      @data
     end
 
     private
@@ -103,9 +106,16 @@ module TimeOverlap
       )
     end
 
-    def check
+    def throw_errors!
+      if @min_overlap > @duration
+        raise "Min overlap must be lower that duration"
+      end
+
       raise "Wrong Overlap 1" unless (data[:overlap_1][:end] - data[:overlap_1][:start]).to_i / 60 / 60 == duration
-      raise "Wrong Overlap 2" unless (data[:overlap_2][:end] - data[:overlap_2][:start]).to_i / 60 / 60 == duration
+
+      if data[:overlap_2] && (data[:overlap_2][:end] - data[:overlap_2][:start]).to_i / 60 / 60 != duration
+        raise "Wrong Overlap 2"
+      end
     end
   end
 end
