@@ -7,8 +7,8 @@ module TimeOverlap
     SIX_AM = " 6:00 "
     SIX_PM = " 6:00 "
 
-    AVAILABLE_SLOT = "[✓]"
-    EMPTY_SLOT = "[ ]"
+    AVAILABLE_SLOT = "[✓] "
+    EMPTY_SLOT = "[ ] "
 
     def initialize(data, format = '%T%:z')
       @data   = data
@@ -50,13 +50,19 @@ module TimeOverlap
     end
 
     def timeline(start_time, end_time)
+      print "    "
+      (0..23).each do |hour|
+        printf("%-4s", hour)
+      end
+
+      puts ""
+
       print AM
 
-
       (0..23).each do |hour|
-        print NOON if hour == 12
-        print SIX_AM if hour == 6
-        print SIX_PM if hour == 18
+        # print NOON if hour == 12
+        # print SIX_AM if hour == 6
+        # print SIX_PM if hour == 18
 
         if start_time.hour < end_time.hour
           if (start_time.hour..end_time.hour).cover?(hour)
