@@ -1,3 +1,5 @@
+require 'colorize'
+
 module TimeOverlap
   class Presenter
 
@@ -21,18 +23,18 @@ module TimeOverlap
 
     def generate_output
       puts "Original:"
-      puts "#{formated_time(@data[:original][:start])} - #{formated_time(@data[:original][:end])}"
-      separator
+      puts "#{formated_time(@data[:original][:start], false)} - #{formated_time(@data[:original][:end])}".green
+      timeline(@data[:original][:start], @data[:original][:end])
       puts "Full overlap:"
-      puts "#{formated_time(@data[:full_overlap][:start])} - #{formated_time(@data[:full_overlap][:end])}"
+      puts "#{formated_time(@data[:full_overlap][:start], false)} - #{formated_time(@data[:full_overlap][:end])}".green
       timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
       puts "Overlap 1:"
-      puts "#{formated_time(@data[:overlap_1][:start])} - #{formated_time(@data[:overlap_1][:end])}"
+      puts "#{formated_time(@data[:overlap_1][:start], false)} - #{formated_time(@data[:overlap_1][:end])}".green
       timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
 
       if @data[:overlap_2]
         puts "Overlap 2:"
-        puts "#{formated_time(@data[:overlap_2][:start])} - #{formated_time(@data[:overlap_2][:end])}"
+        puts "#{formated_time(@data[:overlap_2][:start], false)} - #{formated_time(@data[:overlap_2][:end])}".green
         timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
       end
 
@@ -42,11 +44,33 @@ module TimeOverlap
     private
 
     def separator
-      puts "_" * 40
+      puts (" " * 102)
     end
 
-    def formated_time(time)
-      time.strftime("%T %:z")
+    def formated_time(time, zone=true)
+      format = "%T"
+      format.concat(" (%:z)") if zone
+      time.strftime(format)
+    end
+
+    def get_color(hour)
+      case hour
+        when 0..5
+          then :blue
+        when 6..7
+          then :light_blue
+        when 8..17
+          then :light_yellow
+        when 18..21
+          then :light_blue
+        when 22..23
+          then :blue
+      end
+
+    end
+
+    def with_color(string, hour)
+      string.colorize(get_color(hour))
     end
 
     def timeline(start_time, end_time)
@@ -67,36 +91,36 @@ module TimeOverlap
         if start_time.hour < end_time.hour
           if (start_time.hour..end_time.hour).cover?(hour)
             if end_time.hour != hour
-              print AVAILABLE_SLOT
+              print with_color(AVAILABLE_SLOT, hour)
             else
-              print EMPTY_SLOT
+              print with_color(EMPTY_SLOT, hour)
             end
           else
-            print EMPTY_SLOT
+            print with_color(EMPTY_SLOT, hour)
           end
         else
           if start_time.hour <= 12
             if (end_time.hour..start_time.hour).cover?(hour)
               if end_time.hour != hour
-                print AVAILABLE_SLOT
+                print with_color(AVAILABLE_SLOT, hour)
               else
-                print EMPTY_SLOT
+                print with_color(EMPTY_SLOT, hour)
               end
             else
-              print EMPTY_SLOT
+              print with_color(EMPTY_SLOT, hour)
             end
           else
             if (end_time.hour..start_time.hour).cover?(hour)
               if (start_time.hour == hour)
-                print AVAILABLE_SLOT
+                print with_color(AVAILABLE_SLOT, hour)
               else
-                print EMPTY_SLOT
+                print with_color(EMPTY_SLOT, hour)
               end
             else
               if end_time.hour != hour
-                print AVAILABLE_SLOT
+                print with_color(AVAILABLE_SLOT, hour)
               else
-                print EMPTY_SLOT
+                print with_color(EMPTY_SLOT, hour)
               end
             end
           end
