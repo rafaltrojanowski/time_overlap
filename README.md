@@ -1,9 +1,9 @@
 # TimeOverlap
 
-Simple command line tool that allows to find time overlap between two time zones.
+Simple command line tool that allows to find overlap hours between two time zones, with visualization.
 
 Instead visiting pages like https://www.timeanddate.com/worldclock/converter.html
-to convert time to get an information when would you need to start and finish your work
+to convert times and get an information when would you need to start and finish your work to overlap core hours,
 you can type in your console:
 
 ```
@@ -11,7 +11,11 @@ $ time_overlap count 8 16 +00:00 Bangkok 4
 ```
 
 Assuming that you are in Bangkok and the target time zone is UTC +0
-and you want to cover 4 hours from 8:00 to 16:00.
+and you want to cover 4 hours - from 8:00 to 16:00.
+
+In most cases it suggests 2 options (cover first four hours: 8-12 or last: 12-16).
+
+More info: https://www.daxx.com/blog/offshore-team/time-difference-offshore-development
 
 ## Installation
 
