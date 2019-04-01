@@ -9,7 +9,7 @@ module TimeOverlap
     SIX_AM = " 6:00 "
     SIX_PM = " 6:00 "
 
-    AVAILABLE_SLOT = "[✓] "
+    AVAILABLE_SLOT = "|█| "
     EMPTY_SLOT = "[ ] "
 
     def initialize(data, format = '%T%:z')
