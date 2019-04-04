@@ -2,6 +2,8 @@
 
 Simple command line tool that allows to find overlap hours between two time zones, with visualization.
 
+![screenshot](http://i68.tinypic.com/mi1npd.png)
+
 Instead visiting pages like https://www.timeanddate.com/worldclock/converter.html
 to convert times and get an information when would you need to start and finish your work to overlap core hours,
 you can type in your console:
