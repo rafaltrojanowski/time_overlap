@@ -12,6 +12,33 @@ RSpec.describe TimeOverlap::Calculator do
     expect(TimeOverlap::VERSION).not_to be nil
   end
 
+  it "when time zones passed in" do
+    expect(described_class.count(
+              from: 10,
+              to: 18,
+              time_zone: 'Budapest',
+              my_time_zone: 'Bangkok',
+              min_overlap: 4
+          )).to eq({
+            :full_overlap => {
+              :end=>    Time.parse('2019-02-10 00:00:00.000000000 +0700'),
+              :start=>  Time.parse('2019-02-09 16:00:00.000000000 +0700')
+            },
+            :original => {
+              :end=>    Time.parse('2019-02-09 18:00:00.000000000 +0100'),
+              :start=>  Time.parse('2019-02-09 10:00:00.000000000 +0100')
+            },
+            :overlap_1 => {
+              :end=>    Time.parse('2019-02-09 20:00:00.000000000 +0700'),
+              :start=>  Time.parse('2019-02-09 12:00:00.000000000 +0700')
+            },
+            :overlap_2 => {
+              :end=>    Time.parse('2019-02-10 04:00:00.000000000 +0700'),
+              :start=>  Time.parse('2019-02-09 20:00:00.000000000 +0700')
+            },
+          })
+  end
+
   it "EST (-7:00) and Bangkok(+7:00)" do
     expect(described_class.count(
               from: 10,
@@ -23,11 +50,11 @@ RSpec.describe TimeOverlap::Calculator do
           ).to eq({
             :full_overlap => {
               :end =>   Time.parse('2019-02-10 08:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-10 00:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-10 00:00:00.000000000 +0700')
             },
             :original => {
               :end =>   Time.parse('2019-02-09 18:00:00.000000000 -0700'),
-              :start => Time.parse('2019-02-09 10:00:00.000000000 -0700'),
+              :start => Time.parse('2019-02-09 10:00:00.000000000 -0700')
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-10 04:00:00.000000000 +0700'),
@@ -51,11 +78,11 @@ RSpec.describe TimeOverlap::Calculator do
           ).to eq({
             :full_overlap => {
               :end =>   Time.parse('2019-02-10 06:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 20:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 20:00:00.000000000 +0700')
             },
             :original => {
               :end =>   Time.parse('2019-02-09 18:00:00.000000000 -0500'),
-              :start => Time.parse('2019-02-09 08:00:00.000000000 -0500'),
+              :start => Time.parse('2019-02-09 08:00:00.000000000 -0500')
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-10 00:00:00.000000000 +0700'),
@@ -79,11 +106,11 @@ RSpec.describe TimeOverlap::Calculator do
           ).to eq({
             :full_overlap => {
               :end =>   Time.parse('2019-02-09 23:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 15:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 15:00:00.000000000 +0700')
             },
             :original => {
               :end =>   Time.parse('2019-02-09 16:00:00.000000000 +0000'),
-              :start => Time.parse('2019-02-09 08:00:00.000000000 +0000'),
+              :start => Time.parse('2019-02-09 08:00:00.000000000 +0000')
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-09 19:00:00.000000000 +0700'),
@@ -107,11 +134,11 @@ RSpec.describe TimeOverlap::Calculator do
           ).to eq({
             :full_overlap => {
               :end =>   Time.parse('2019-02-09 11:00:00.000000000 +0100'),
-              :start => Time.parse('2019-02-09 03:00:00.000000000 +0100'),
+              :start => Time.parse('2019-02-09 03:00:00.000000000 +0100')
             },
             :original => {
               :end =>   Time.parse('2019-02-09 17:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 09:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 09:00:00.000000000 +0700')
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-09 07:00:00.000000000 +0100'),
@@ -135,11 +162,11 @@ RSpec.describe TimeOverlap::Calculator do
           ).to eq({
             :full_overlap => {
               :end =>   Time.parse('2019-02-09 23:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 15:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 15:00:00.000000000 +0700')
             },
             :original => {
               :end =>   Time.parse('2019-02-09 17:00:00.000000000 +0100'),
-              :start => Time.parse('2019-02-09 09:00:00.000000000 +0100'),
+              :start => Time.parse('2019-02-09 09:00:00.000000000 +0100')
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-09 17:00:00.000000000 +0700'),
@@ -163,11 +190,11 @@ RSpec.describe TimeOverlap::Calculator do
           ).to eq({
             :full_overlap => {
               :end =>   Time.parse('2019-02-10 00:00:00.000000000 +0700'),
-              :start => Time.parse('2019-02-09 22:00:00.000000000 +0700'),
+              :start => Time.parse('2019-02-09 22:00:00.000000000 +0700')
             },
             :original => {
               :end =>   Time.parse('2019-02-09 19:00:00.000000000 +0200'),
-              :start => Time.parse('2019-02-09 17:00:00.000000000 +0200'),
+              :start => Time.parse('2019-02-09 17:00:00.000000000 +0200')
             },
             :overlap_1 => {
               :end =>   Time.parse('2019-02-09 23:00:00.000000000 +0700'),
@@ -204,11 +231,11 @@ RSpec.describe TimeOverlap::Calculator do
       )).to eq({
         :full_overlap => {
           :end =>   Time.parse('2019-02-10 17:00:00.000000000 +1300'),
-          :start => Time.parse('2019-02-10 09:00:00.000000000 +1300'),
+          :start => Time.parse('2019-02-10 09:00:00.000000000 +1300')
         },
         :original => {
           :end =>   Time.parse('2019-02-09 17:00:00.000000000 -1100'),
-          :start => Time.parse('2019-02-09 09:00:00.000000000 -1100'),
+          :start => Time.parse('2019-02-09 09:00:00.000000000 -1100')
         },
         :overlap_1 => {
           :end =>   Time.parse('2019-02-10 17:00:00.000000000 +1300'),
