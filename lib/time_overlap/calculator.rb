@@ -10,6 +10,8 @@ module TimeOverlap
       @time_zone = time_zone
       @my_time_zone = my_time_zone
       @min_overlap = min_overlap
+      @start_time = set_time(from)
+      @end_time = set_time(to)
       @duration = (end_time - start_time).to_i / 60 / 60
 
       @data = {}
@@ -61,9 +63,8 @@ module TimeOverlap
     private
 
     attr_reader(
-      :current_year,
-      :current_month,
-      :current_day,
+      :start_time,
+      :end_time,
       :from,
       :to,
       :time_zone,
@@ -73,7 +74,7 @@ module TimeOverlap
       :duration
     )
 
-    def start_time
+    def set_time(hour)
       offset = Time.zone_offset(time_zone)
 
       if offset.nil?
@@ -83,32 +84,11 @@ module TimeOverlap
 
       raise 'Wrong time_zone' if offset.nil?
 
-      @start_time ||= Time.new(
-        current_year,
-        current_month,
-        current_day,
-        from,
-        0,
-        0,
-        offset
-      )
-    end
-
-    def end_time
-      offset = Time.zone_offset(time_zone)
-
-      if offset.nil?
-        zone = ActiveSupport::TimeZone[time_zone]
-        offset = zone.utc_offset
-      end
-
-      raise 'Wrong time_zone' if offset.nil?
-
-      @end_time ||= Time.new(
-        current_year,
-        current_month,
-        current_day,
-        to,
+      Time.new(
+        @current_year,
+        @current_month,
+        @current_day,
+        hour,
         0,
         0,
         offset
