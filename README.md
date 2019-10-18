@@ -6,7 +6,7 @@ Simple command line tool that allows to find overlap hours between two time zone
 $ time_overlap count 8 16 +00:00 Bangkok 4
 ```
 
-![screenshot](http://i68.tinypic.com/mi1npd.png)
+![screenshot](img/preview.png)
 
 Assuming that you are in Bangkok and the target time zone is UTC +0
 and you want to cover 4 hours - from 8:00 to 16:00.

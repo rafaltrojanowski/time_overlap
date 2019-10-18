@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    time_overlap (0.1.1)
+    time_overlap (0.1.2)
       activesupport
       colorize
       thor
