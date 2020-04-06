@@ -9,6 +9,11 @@ module TimeOverlap
     SIX_AM = " 6:00 "
     SIX_PM = " 6:00 "
 
+    BASE          = 'Base'
+    EARLY_BIRD    = 'Early Bird'
+    NIGHT_OWL     = 'Night Owl'
+    CONTROL_FREAK = 'A Cruel and Oppressive Ruler'
+
     AVAILABLE_SLOT = "|█| "
     EMPTY_SLOT = "[ ] "
 
@@ -22,21 +27,23 @@ module TimeOverlap
     end
 
     def generate_output
-      puts "Original:"
+      puts "#{BASE}"
       puts "#{formated_time(@data[:original][:start], false)} - #{formated_time(@data[:original][:end])}".green
       timeline(@data[:original][:start], @data[:original][:end])
-      puts "Full overlap:"
-      puts "#{formated_time(@data[:full_overlap][:start], false)} - #{formated_time(@data[:full_overlap][:end])}".green
-      timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
-      puts "Overlap 1:"
+
+      puts "#{EARLY_BIRD}"
       puts "#{formated_time(@data[:overlap_1][:start], false)} - #{formated_time(@data[:overlap_1][:end])}".green
       timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
 
       if @data[:overlap_2]
-        puts "Overlap 2:"
+        puts "#{NIGHT_OWL}"
         puts "#{formated_time(@data[:overlap_2][:start], false)} - #{formated_time(@data[:overlap_2][:end])}".green
         timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
       end
+
+      puts "#{CONTROL_FREAK}"
+      puts "#{formated_time(@data[:full_overlap][:start], false)} - #{formated_time(@data[:full_overlap][:end])}".green
+      timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
 
       @data
     end
