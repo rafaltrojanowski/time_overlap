@@ -45,6 +45,7 @@ module TimeOverlap
       puts "#{formated_time(@data[:full_overlap][:start], false)} - #{formated_time(@data[:full_overlap][:end])}".green
       timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
 
+
       @data
     end
 
