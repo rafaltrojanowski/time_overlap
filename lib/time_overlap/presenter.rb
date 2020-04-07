@@ -14,6 +14,8 @@ module TimeOverlap
     NIGHT_OWL     = 'Night Owl'
     CONTROL_FREAK = 'A Cruel and Oppressive Ruler'
 
+    WIDTH         = 102
+
     AVAILABLE_SLOT = "|█| "
     EMPTY_SLOT = "[ ] "
 
@@ -30,22 +32,26 @@ module TimeOverlap
       duration    = @data[:duration]
       min_overlap = @data[:min_overlap]
 
-      puts "#{BASE}"
-      puts "#{formated_time(@data[:original][:start], false)} - #{formated_time(@data[:original][:end])}".green
+      puts "-" * WIDTH
+      puts "*** Your overlap hours ***".center(WIDTH)
+      puts "-" * WIDTH
+
+      puts "* #{BASE}"
+      puts "#{formated_time(@data[:original][:start], true)} - #{formated_time(@data[:original][:end])}".green
       timeline(@data[:original][:start], @data[:original][:end])
 
-      puts "#{EARLY_BIRD} (#{min_overlap} hours of overlap)"
-      puts "#{formated_time(@data[:overlap_1][:start], false)} - #{formated_time(@data[:overlap_1][:end])}".green
+      puts "* #{EARLY_BIRD} (#{min_overlap} hours of overlap)"
+      puts "#{formated_time(@data[:overlap_1][:start], true)} - #{formated_time(@data[:overlap_1][:end])}".green
       timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
 
       if @data[:overlap_2]
-        puts "#{NIGHT_OWL} (#{min_overlap} hours of overlap)"
-        puts "#{formated_time(@data[:overlap_2][:start], false)} - #{formated_time(@data[:overlap_2][:end])}".green
+        puts "* #{NIGHT_OWL} (#{min_overlap} hours of overlap)"
+        puts "#{formated_time(@data[:overlap_2][:start], true)} - #{formated_time(@data[:overlap_2][:end])}".green
         timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
       end
 
-      puts "#{CONTROL_FREAK} (#{duration} hours of overlap)"
-      puts "#{formated_time(@data[:full_overlap][:start], false)} - #{formated_time(@data[:full_overlap][:end])}".green
+      puts "* #{CONTROL_FREAK} (#{duration} hours of overlap)"
+      puts "#{formated_time(@data[:full_overlap][:start], true)} - #{formated_time(@data[:full_overlap][:end])}".green
       timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
 
       @data
@@ -57,9 +63,9 @@ module TimeOverlap
       puts (" " * 102)
     end
 
-    def formated_time(time, zone=true)
+    def formated_time(time, with_zone=false)
       format = "%T"
-      format.concat(" (%:z)") if zone
+      format.prepend("TZ: %:z | ") if with_zone
       time.strftime(format)
     end
 
