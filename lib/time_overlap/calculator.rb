@@ -49,7 +49,9 @@ module TimeOverlap
         overlap_2: {
           start: y_start_time,
           end: y_end_time
-        }
+        },
+        duration: duration,
+        min_overlap: min_overlap
       }
 
       if x_start_time == y_start_time && x_end_time == y_end_time

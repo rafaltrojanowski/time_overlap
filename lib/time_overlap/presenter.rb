@@ -27,24 +27,26 @@ module TimeOverlap
     end
 
     def generate_output
+      duration    = @data[:duration]
+      min_overlap = @data[:min_overlap]
+
       puts "#{BASE}"
       puts "#{formated_time(@data[:original][:start], false)} - #{formated_time(@data[:original][:end])}".green
       timeline(@data[:original][:start], @data[:original][:end])
 
-      puts "#{EARLY_BIRD}"
+      puts "#{EARLY_BIRD} (#{min_overlap} hours of overlap)"
       puts "#{formated_time(@data[:overlap_1][:start], false)} - #{formated_time(@data[:overlap_1][:end])}".green
       timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
 
       if @data[:overlap_2]
-        puts "#{NIGHT_OWL}"
+        puts "#{NIGHT_OWL} (#{min_overlap} hours of overlap)"
         puts "#{formated_time(@data[:overlap_2][:start], false)} - #{formated_time(@data[:overlap_2][:end])}".green
         timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
       end
 
-      puts "#{CONTROL_FREAK}"
+      puts "#{CONTROL_FREAK} (#{duration} hours of overlap)"
       puts "#{formated_time(@data[:full_overlap][:start], false)} - #{formated_time(@data[:full_overlap][:end])}".green
       timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
-
 
       @data
     end
