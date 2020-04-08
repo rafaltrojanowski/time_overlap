@@ -47,7 +47,8 @@ RSpec.describe TimeOverlap::Calculator do
               :start => Time.parse('2019-02-10 04:00:00.000000000 +0700')
             },
             :duration => 8,
-            :min_overlap => 4
+            :min_overlap => 4,
+            :my_time_zone => "Bangkok"
           })
   end
 
@@ -77,7 +78,8 @@ RSpec.describe TimeOverlap::Calculator do
               :start => Time.parse('2019-02-10 02:00:00.000000000 +0700')
             },
             :duration => 10,
-            :min_overlap => 4
+            :min_overlap => 4,
+            :my_time_zone => "Bangkok"
           })
   end
 
@@ -107,7 +109,8 @@ RSpec.describe TimeOverlap::Calculator do
               :start => Time.parse('2019-02-09 19:00:00.000000000 +0700')
             },
             :duration => 8,
-            :min_overlap => 4
+            :min_overlap => 4,
+            :my_time_zone => "Bangkok"
           })
   end
 
@@ -137,7 +140,8 @@ RSpec.describe TimeOverlap::Calculator do
               :start => Time.parse('2019-02-09 07:00:00.000000000 +0100')
             },
             :duration => 8,
-            :min_overlap => 4
+            :min_overlap => 4,
+            :my_time_zone => "Warsaw"
           })
   end
 
@@ -167,7 +171,8 @@ RSpec.describe TimeOverlap::Calculator do
               :start => Time.parse('2019-02-09 21:00:00.000000000 +0700')
             },
             :duration => 8,
-            :min_overlap => 2
+            :min_overlap => 2,
+            :my_time_zone => "Bangkok",
           })
   end
 
@@ -197,7 +202,8 @@ RSpec.describe TimeOverlap::Calculator do
               :start => Time.parse('2019-02-09 23:00:00.000000000 +0700')
             },
             :duration => 2,
-            :min_overlap => 1
+            :min_overlap => 1,
+            :my_time_zone => "Bangkok"
           })
   end
 
@@ -236,7 +242,8 @@ RSpec.describe TimeOverlap::Calculator do
           :start => Time.parse('2019-02-10 09:00:00.000000000 +1300')
         },
         :duration => 8,
-        :min_overlap => 8
+        :min_overlap => 8,
+        :my_time_zone => "Tokelau Is."
       })
   end
 
@@ -267,6 +274,7 @@ RSpec.describe TimeOverlap::Calculator do
               },
               :duration => 8,
               :min_overlap => 4,
+              :my_time_zone => "Bangkok"
             })
     end
   end

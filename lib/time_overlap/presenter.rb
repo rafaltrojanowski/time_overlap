@@ -33,7 +33,7 @@ module TimeOverlap
       min_overlap = @data[:min_overlap]
 
       puts "-" * WIDTH
-      puts "*** Your overlap hours ***".center(WIDTH)
+      puts "*** Your overlap hours in #{@data[:my_time_zone]} ***".center(WIDTH)
       puts "-" * WIDTH
 
       puts "* #{BASE}"

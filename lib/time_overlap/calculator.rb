@@ -51,7 +51,8 @@ module TimeOverlap
           end: y_end_time
         },
         duration: duration,
-        min_overlap: min_overlap
+        min_overlap: min_overlap,
+        my_time_zone: my_time_zone
       }
 
       if x_start_time == y_start_time && x_end_time == y_end_time

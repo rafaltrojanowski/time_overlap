@@ -21,14 +21,16 @@ module TimeOverlap
        Add support for formatted offset, ie:
        `time_overlap show 8 16 4 +02:00 +07:00`
       "
-    def show(from, to, min_overlap, base_time_zone, my_time_zone)
-      TimeOverlap::Calculator.show(
-        from: from.to_i,
-        to: to.to_i,
-        min_overlap: min_overlap.to_i,
-        time_zone: base_time_zone,
-        my_time_zone: my_time_zone,
-      )
+    def show(from, to, min_overlap, base_time_zone, *time_zones)
+      time_zones.each do |zone_name|
+        TimeOverlap::Calculator.show(
+          from: from.to_i,
+          to: to.to_i,
+          min_overlap: min_overlap.to_i,
+          time_zone: base_time_zone,
+          my_time_zone: zone_name,
+        )
+      end
     end
 
     desc 'list',
