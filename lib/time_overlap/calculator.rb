@@ -17,7 +17,7 @@ module TimeOverlap
       @data = {}
     end
 
-    def self.count(*args)
+    def self.show(*args)
       self.new(*args).execute
     end
 

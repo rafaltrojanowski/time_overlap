@@ -3,10 +3,10 @@ require "thor"
 module TimeOverlap
   class CLI < Thor
 
-    desc 'count',
+    desc 'show',
       "Example:
 
-       `time_overlap count 8 16 +00:00 Bangkok 4`
+       `time_overlap show 8 16 +00:00 Bangkok 4`
 
        8       -> from (hour, integer)
        16      -> to (hour, integer)
@@ -18,8 +18,8 @@ module TimeOverlap
        Run `time_overlap list` to get all available Time Zones
        You can also use +01:00 format
       "
-    def count(from, to, base_time_zone, my_time_zone, min_overlap)
-      TimeOverlap::Calculator.count(
+    def show(from, to, base_time_zone, my_time_zone, min_overlap)
+      TimeOverlap::Calculator.show(
         from: from.to_i,
         to: to.to_i,
         time_zone: base_time_zone,
@@ -33,7 +33,8 @@ module TimeOverlap
     def list
       puts "List of available time zones:"
       puts "-----------------------------"
-      puts ActiveSupport::TimeZone.all.map(&:name).join("\n")
+      byebug
+      puts ActiveSupport::TimeZone.all[0].inspect
     end
   end
 end
