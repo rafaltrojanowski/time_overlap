@@ -7,6 +7,20 @@ RSpec.describe TimeOverlap::Calculator do
     expect(TimeOverlap::VERSION).not_to be nil
   end
 
+  it "does not raise an error for all listed time zones" do
+    time_zones = ActiveSupport::TimeZone.all.map(&:name)
+    time_zones.each do |zone_name|
+      expect(described_class.show(
+                from: 10,
+                to: 18,
+                min_overlap: 4,
+                time_zone: zone_name,
+                my_time_zone: zone_name,
+              )
+            ).to_not be_empty
+    end
+  end
+
   it "EST (-7:00) and Bangkok(+7:00)" do
     expect(described_class.show(
               from: 10,
