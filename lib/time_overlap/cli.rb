@@ -6,17 +6,20 @@ module TimeOverlap
     desc 'show',
       "Example:
 
-       `time_overlap show 8 16 4 +00:00 Bangkok`
+       `time_overlap show 8 16 4 Warsaw Bangkok`
 
-       8       -> from (hour, integer)
-       16      -> to (hour, integer)
-       4       -> min_overlap (hours, integer)
-       +00:00  -> base time zone
-       Bangkok -> my/your time zone
+       8       - from (hour, Integer)
+       16      - to   (hour, Integer)
+       4       - min_overlap (hours, Integer)
+       Warsaw  - base time zone *
+       Bangkok - your time zone
 
-       Tip:
-       Run `time_overlap list` to get all available Time Zones
-       You can also use +01:00 format
+       * To get all available time zones, run:
+       `time_overlap list`
+
+       Todo:
+       Add support for formatted offset, ie:
+       `time_overlap show 8 16 4 +02:00 +07:00`
       "
     def show(from, to, min_overlap, base_time_zone, my_time_zone)
       TimeOverlap::Calculator.show(
