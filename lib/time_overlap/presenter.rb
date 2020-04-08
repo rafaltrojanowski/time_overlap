@@ -12,7 +12,7 @@ module TimeOverlap
     BASE          = 'Base'
     EARLY_BIRD    = 'Early Bird'
     NIGHT_OWL     = 'Night Owl'
-    CONTROL_FREAK = 'A Cruel and Oppressive Ruler'
+    FULL_OVERLAP  = 'Full Overlap'
 
     WIDTH         = 102
 
@@ -28,36 +28,50 @@ module TimeOverlap
       new(*args).generate_output
     end
 
-    def generate_output
+    def generate_output(show_header: true, show_base: true, show_min_overlap: true, show_full_overlap: true)
       duration    = @data[:duration]
       min_overlap = @data[:min_overlap]
 
-      puts "-" * WIDTH
-      puts "*** Your overlap hours in #{@data[:my_time_zone]} ***".center(WIDTH)
-      puts "-" * WIDTH
-
-      puts "* #{BASE}"
-      puts "#{formated_time(@data[:original][:start], true)} - #{formated_time(@data[:original][:end])}".green
-      timeline(@data[:original][:start], @data[:original][:end])
-
-      puts "* #{EARLY_BIRD} (#{min_overlap} hours of overlap)"
-      puts "#{formated_time(@data[:overlap_1][:start], true)} - #{formated_time(@data[:overlap_1][:end])}".green
-      timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
-
-      if @data[:overlap_2]
-        puts "* #{NIGHT_OWL} (#{min_overlap} hours of overlap)"
-        puts "#{formated_time(@data[:overlap_2][:start], true)} - #{formated_time(@data[:overlap_2][:end])}".green
-        timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
-      end
-
-      puts "* #{CONTROL_FREAK} (#{duration} hours of overlap)"
-      puts "#{formated_time(@data[:full_overlap][:start], true)} - #{formated_time(@data[:full_overlap][:end])}".green
-      timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
+      render_header if show_header
+      render_base if show_base
+      render_min_overlap if show_min_overlap
+      render_full_overlap if show_full_overlap
 
       @data
     end
 
     private
+
+    def render_header
+      puts "-" * WIDTH
+      puts "*** Your overlap hours in #{@data[:my_time_zone]} ***".center(WIDTH)
+      puts "-" * WIDTH
+    end
+
+    def render_base
+      puts "* #{BASE}"
+      puts "#{formated_time(@data[:original][:start], true)} - #{formated_time(@data[:original][:end])}".green
+      timeline(@data[:original][:start], @data[:original][:end])
+    end
+
+    def render_min_overlap
+      puts "* #{EARLY_BIRD} (#{@data[:min_overlap]} hours of overlap)"
+      puts "#{formated_time(@data[:overlap_1][:start], true)} - #{formated_time(@data[:overlap_1][:end])}".green
+      timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
+
+      if @data[:overlap_2]
+        puts "* #{NIGHT_OWL} (#{@data[:min_overlap]} hours of overlap)"
+        puts "#{formated_time(@data[:overlap_2][:start], true)} - #{formated_time(@data[:overlap_2][:end])}".green
+        timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
+      end
+    end
+
+    def render_full_overlap
+      puts "* #{FULL_OVERLAP} (#{@data[:duration]} hours of overlap)"
+      puts "#{formated_time(@data[:full_overlap][:start], true)} - #{formated_time(@data[:full_overlap][:end])}".green
+      timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
+    end
+
 
     def separator
       puts (" " * 102)
