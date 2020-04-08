@@ -31,6 +31,7 @@ module TimeOverlap
       start_time_in_my_time_zone = start_time.in_time_zone(my_time_zone)
       end_time_in_my_time_zone = end_time.in_time_zone(my_time_zone)
 
+      # TODO: Rename variables
       x_start_time = (start_time - offset * 60 * 60).in_time_zone(my_time_zone)
       x_end_time = (end_time - offset * 60 * 60).in_time_zone(my_time_zone)
 
@@ -65,21 +66,7 @@ module TimeOverlap
       end
 
       throw_errors!
-
-      if @team
-        opts = {
-          show_header: false,
-          show_base: false,
-          show_min_overlap: false,
-          show_full_overlap: true
-        }
-        if @base
-          Presenter.new(@data).generate_output(show_base: true, show_header: false, show_min_overlap: false, show_full_overlap: false)
-        end
-        Presenter.new(@data).generate_output(opts)
-      else
-        Presenter.new(@data).generate_output
-      end
+      present_result
     end
 
     private
@@ -95,6 +82,36 @@ module TimeOverlap
       :data,
       :duration
     )
+
+    def present_result
+      if @team
+        presenter_instance.generate_output(opts[:base]) if @base
+        presenter_instance.generate_output(opts[:team])
+      else
+        presenter_instance.generate_output
+      end
+    end
+
+    def presenter_instance
+      @presenter_instance ||= Presenter.new(@data)
+    end
+
+    def opts
+      {
+        team: {
+          show_header: false,
+          show_base: false,
+          show_min_overlap: false,
+          show_full_overlap: true
+        },
+        base: {
+          show_base: true,
+          show_header: false,
+          show_min_overlap: false,
+          show_full_overlap: false
+        }
+      }
+    end
 
     def set_time(hour)
       offset = Time.zone_offset(time_zone)
