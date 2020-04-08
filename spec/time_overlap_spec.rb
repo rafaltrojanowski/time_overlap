@@ -11,9 +11,9 @@ RSpec.describe TimeOverlap::Calculator do
     expect(described_class.show(
               from: 10,
               to: 18,
+              min_overlap: 4,
               time_zone: '-07:00',
-              my_time_zone: 'Bangkok',
-              min_overlap: 4
+              my_time_zone: 'Bangkok'
             )
           ).to eq({
             :full_overlap => {
