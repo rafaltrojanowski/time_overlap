@@ -29,9 +29,28 @@ module TimeOverlap
           min_overlap: min_overlap.to_i,
           time_zone: base_time_zone,
           my_time_zone: zone_name,
+          team: false,
+          base: false
         )
       end
     end
+
+    desc 'team',
+      "Example: `time_overlap team`"
+    def team(from, to, min_overlap, base_time_zone, *time_zones)
+      time_zones.each_with_index do |zone_name, index|
+        TimeOverlap::Calculator.show(
+          from: from.to_i,
+          to: to.to_i,
+          min_overlap: min_overlap.to_i,
+          time_zone: base_time_zone,
+          my_time_zone: zone_name,
+          team: true,
+          base: index == 0
+        )
+      end
+    end
+
 
     desc 'list',
       "Example: `time_overlap list`"

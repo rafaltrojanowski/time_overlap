@@ -1,10 +1,11 @@
 module TimeOverlap
   class Calculator
 
-    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:)
+    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, team:, base:)
       @current_year = Time.current.year
       @current_month = Time.current.month
       @current_day = Time.current.day
+
       @from = from
       @to = to
       @time_zone = time_zone
@@ -13,6 +14,9 @@ module TimeOverlap
       @start_time = set_time(from)
       @end_time = set_time(to)
       @duration = (end_time - start_time).to_i / 60 / 60
+
+      @team = team
+      @base = base
 
       @data = {}
     end
@@ -52,6 +56,7 @@ module TimeOverlap
         },
         duration: duration,
         min_overlap: min_overlap,
+        time_zone: time_zone,
         my_time_zone: my_time_zone
       }
 
@@ -60,7 +65,21 @@ module TimeOverlap
       end
 
       throw_errors!
-      Presenter.new(@data).generate_output
+
+      if @team
+        opts = {
+          show_header: false,
+          show_base: false,
+          show_min_overlap: false,
+          show_full_overlap: true
+        }
+        if @base
+          Presenter.new(@data).generate_output(show_base: true, show_header: false, show_min_overlap: false, show_full_overlap: false)
+        end
+        Presenter.new(@data).generate_output(opts)
+      else
+        Presenter.new(@data).generate_output
+      end
     end
 
     private
