@@ -1,7 +1,7 @@
 module TimeOverlap
   class Calculator
 
-    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, team:, base:)
+    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, team: false, base: false)
       @current_year = Time.current.year
       @current_month = Time.current.month
       @current_day = Time.current.day
