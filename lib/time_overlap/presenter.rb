@@ -75,7 +75,7 @@ module TimeOverlap
     end
 
     def render_base
-      return unless @data[:original]
+      return unless original
 
       puts "* #{time_zone} (Base)"
       puts "#{formated_time(original[:start], true)} - #{formated_time(original[:end])}".green
