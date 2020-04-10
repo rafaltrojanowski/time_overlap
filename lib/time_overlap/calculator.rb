@@ -101,11 +101,11 @@ module TimeOverlap
       offset = Time.zone_offset(time_zone)
 
       if offset.nil?
-        zone = ActiveSupport::TimeZone[time_zone]
-        offset = zone.utc_offset
+        zone = ActiveSupport::TimeZone.new(time_zone)
+        offset = zone.now.utc_offset
       end
 
-      raise 'Wrong time_zone' if offset.nil?
+      raise "Problem has occured during offset calculation for #{time_zone}" if offset.nil?
 
       Time.new(
         @current_year,

@@ -21,7 +21,7 @@ RSpec.describe TimeOverlap::Calculator do
     end
   end
 
-  it "time_overlap team 8 12 Warsaw Warsaw Warsaw" do
+  it "gives correct result during Daylight Savings Time" do
     Timecop.freeze(Time.local(2020, 04, 10, 18, 0, 0))
 
     expect(described_class.show(
@@ -34,10 +34,10 @@ RSpec.describe TimeOverlap::Calculator do
             )
           ).to eq({
             :duration => 2,
-            :full_overlap => {:end=>Time.parse("2019-02-09 12:00:00.000000000 +0100"), :start=>Time.parse("2019-02-09 10:00:00.000000000 +0100")},
+            :full_overlap => {:end=>Time.parse("2020-04-10 12:00:00.000000000 +0200"), :start=>Time.parse("2020-04-10 10:00:00.000000000 +0200")},
             :min_overlap => 0,
             :my_time_zone => "Warsaw",
-            :original => {:end=>Time.parse("2019-02-09 12:00:00.000000000 +0100"), :start=>Time.parse("2019-02-09 10:00:00.000000000 +0100")},
+            :original => {:end=>Time.parse("2020-04-10 12:00:00.000000000 +0200"), :start=>Time.parse("2020-04-10 10:00:00.000000000 +0200")},
             :time_zone => "Warsaw"
           })
 
