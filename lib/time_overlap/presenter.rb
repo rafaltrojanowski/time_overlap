@@ -26,14 +26,14 @@ module TimeOverlap
       new(*args).generate_output
     end
 
-    def generate_output(show_header: true, show_base: true, show_min_overlap: true, show_full_overlap: true)
+    def generate_output
       duration    = @data[:duration]
       min_overlap = @data[:min_overlap]
 
-      render_header if show_header
-      render_base if show_base
-      render_min_overlap if show_min_overlap
-      render_full_overlap if show_full_overlap
+      render_header
+      render_base
+      render_min_overlap
+      render_full_overlap
 
       @data
     end
@@ -53,6 +53,8 @@ module TimeOverlap
     end
 
     def render_min_overlap
+      return unless @data[:overlap_1]
+
       puts "* #{@data[:my_time_zone]} #{EARLY_BIRD} (#{@data[:min_overlap]} hour(s) of overlap)"
       puts "#{formated_time(@data[:overlap_1][:start], true)} - #{formated_time(@data[:overlap_1][:end])}".green
       timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])

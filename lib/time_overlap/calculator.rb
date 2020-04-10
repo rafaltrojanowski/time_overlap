@@ -1,7 +1,7 @@
 module TimeOverlap
   class Calculator
 
-    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, team: false, base: false)
+    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, team: false)
       @current_year = Time.current.year
       @current_month = Time.current.month
       @current_day = Time.current.day
@@ -16,7 +16,6 @@ module TimeOverlap
       @duration = (end_time - start_time).to_i / 60 / 60
 
       @team = team
-      @base = base
 
       @data = {}
     end
@@ -31,12 +30,11 @@ module TimeOverlap
       start_time_in_my_time_zone = start_time.in_time_zone(my_time_zone)
       end_time_in_my_time_zone = end_time.in_time_zone(my_time_zone)
 
-      # TODO: Rename variables
-      x_start_time = (start_time - offset * 60 * 60).in_time_zone(my_time_zone)
-      x_end_time = (end_time - offset * 60 * 60).in_time_zone(my_time_zone)
+      overlap_1_start_time = (start_time - offset * 60 * 60).in_time_zone(my_time_zone)
+      overlap_1_end_time = (end_time - offset * 60 * 60).in_time_zone(my_time_zone)
 
-      y_start_time = (end_time - min_overlap * 60 * 60).in_time_zone(my_time_zone)
-      y_end_time = (y_start_time + duration * 60 * 60).in_time_zone(my_time_zone)
+      overlap_2_start_time = (end_time - min_overlap * 60 * 60).in_time_zone(my_time_zone)
+      overlap_2_end_time = (overlap_2_start_time + duration * 60 * 60).in_time_zone(my_time_zone)
 
       @data = {
         original: {
@@ -48,12 +46,12 @@ module TimeOverlap
           end: end_time_in_my_time_zone
         },
         overlap_1: {
-          start: x_start_time,
-          end: x_end_time
+          start: overlap_1_start_time,
+          end: overlap_1_end_time,
         },
         overlap_2: {
-          start: y_start_time,
-          end: y_end_time
+          start: overlap_2_start_time,
+          end: overlap_2_end_time
         },
         duration: duration,
         min_overlap: min_overlap,
@@ -61,11 +59,19 @@ module TimeOverlap
         my_time_zone: my_time_zone
       }
 
-      if x_start_time == y_start_time && x_end_time == y_end_time
+      if overlap_1_start_time == overlap_2_start_time &&
+        overlap_1_end_time == overlap_2_end_time
+          @data.delete(:overlap_2)
+      end
+
+
+      throw_errors!
+
+      if @team
+        @data.delete(:overlap_1)
         @data.delete(:overlap_2)
       end
 
-      throw_errors!
       present_result
     end
 
@@ -84,33 +90,11 @@ module TimeOverlap
     )
 
     def present_result
-      if @team
-        presenter_instance.generate_output(opts[:base]) if @base
-        presenter_instance.generate_output(opts[:team])
-      else
-        presenter_instance.generate_output
-      end
+      presenter_instance.generate_output
     end
 
     def presenter_instance
       @presenter_instance ||= Presenter.new(@data)
-    end
-
-    def opts
-      {
-        team: {
-          show_header: false,
-          show_base: false,
-          show_min_overlap: false,
-          show_full_overlap: true
-        },
-        base: {
-          show_base: true,
-          show_header: false,
-          show_min_overlap: false,
-          show_full_overlap: false
-        }
-      }
     end
 
     def set_time(hour)

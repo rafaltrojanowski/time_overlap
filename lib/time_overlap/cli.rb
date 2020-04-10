@@ -18,7 +18,6 @@ module TimeOverlap
           time_zone: base_time_zone,
           my_time_zone: zone_name,
           team: false,
-          base: false
         )
       end
     end
@@ -30,7 +29,7 @@ module TimeOverlap
       `time_overlap team 7 15 Warsaw Bangkok Chongqing Osaka Hobart Auckland Samoa`
       "
     def team(from, to, base_time_zone, *time_zones)
-      time_zones.each_with_index do |zone_name, index|
+      time_zones.each do |zone_name|
         TimeOverlap::Calculator.show(
           from: from.to_i,
           to: to.to_i,
@@ -38,7 +37,6 @@ module TimeOverlap
           time_zone: base_time_zone,
           my_time_zone: zone_name,
           team: true,
-          base: index == 0
         )
       end
     end
