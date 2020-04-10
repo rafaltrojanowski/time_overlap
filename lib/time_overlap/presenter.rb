@@ -3,8 +3,8 @@ require 'colorize'
 module TimeOverlap
   class Presenter
 
-    AM = "AM ".freeze
-    PM = " PM".freeze
+    AM = "AM "
+    PM = " PM"
     NOON = " 12:00 "
     SIX_AM = " 6:00 "
     SIX_PM = " 6:00 "
@@ -27,10 +27,7 @@ module TimeOverlap
     end
 
     def generate_output
-      duration    = @data[:duration]
-      min_overlap = @data[:min_overlap]
-
-      render_base         # TODO: do not render it twice for team
+      render_base
       render_min_overlap
       render_full_overlap
 
@@ -39,36 +36,70 @@ module TimeOverlap
 
     private
 
+    def duration
+      @data[:duration]
+    end
+
+    def min_overlap
+      @data[:min_overlap]
+    end
+
+    def my_time_zone
+      @data[:my_time_zone]
+    end
+
+    def time_zone
+      @data[:time_zone]
+    end
+
+    def original
+      @data[:original]
+    end
+
+    def overlap_1
+      @data[:overlap_1]
+    end
+
+    def overlap_2
+      @data[:overlap_2]
+    end
+
+    def full_overlap
+      @data[:full_overlap]
+    end
+
     def render_header
       puts "-" * WIDTH
-      puts "*** Your overlap hours in #{@data[:my_time_zone]} to #{@data[:time_zone]} ***".center(WIDTH)
+      puts "*** Your overlap hours in #{my_time_zone} to #{time_zone} ***".center(WIDTH)
       puts "-" * WIDTH
     end
 
     def render_base
-      puts "* #{@data[:time_zone]} (Base)"
-      puts "#{formated_time(@data[:original][:start], true)} - #{formated_time(@data[:original][:end])}".green
-      timeline(@data[:original][:start], @data[:original][:end])
+      return unless @data[:original]
+
+      puts "* #{time_zone} (Base)"
+      puts "#{formated_time(original[:start], true)} - #{formated_time(original[:end])}".green
+      timeline(original[:start], original[:end])
     end
 
     def render_min_overlap
-      return unless @data[:overlap_1]
+      return unless overlap_1
 
-      puts "* #{@data[:my_time_zone]} #{EARLY_BIRD} (#{@data[:min_overlap]} hour(s) of overlap)"
-      puts "#{formated_time(@data[:overlap_1][:start], true)} - #{formated_time(@data[:overlap_1][:end])}".green
-      timeline(@data[:overlap_1][:start], @data[:overlap_1][:end])
+      puts "* #{my_time_zone} #{EARLY_BIRD} (#{min_overlap} hour(s) of overlap)"
+      puts "#{formated_time(overlap_1[:start], true)} - #{formated_time(overlap_1[:end])}".green
+      timeline(overlap_1[:start], overlap_1[:end])
 
-      if @data[:overlap_2]
-        puts "* #{@data[:my_time_zone]} #{NIGHT_OWL} (#{@data[:min_overlap]} hour(s) of overlap)"
-        puts "#{formated_time(@data[:overlap_2][:start], true)} - #{formated_time(@data[:overlap_2][:end])}".green
-        timeline(@data[:overlap_2][:start], @data[:overlap_2][:end])
+      if overlap_2
+        puts "* #{my_time_zone} #{NIGHT_OWL} (#{min_overlap} hour(s) of overlap)"
+        puts "#{formated_time(overlap_2[:start], true)} - #{formated_time(overlap_2[:end])}".green
+        timeline(overlap_2[:start], overlap_2[:end])
       end
     end
 
     def render_full_overlap
-      puts "* #{@data[:my_time_zone]} (#{@data[:duration]} hours of overlap)"
-      puts "#{formated_time(@data[:full_overlap][:start], true)} - #{formated_time(@data[:full_overlap][:end])}".green
-      timeline(@data[:full_overlap][:start], @data[:full_overlap][:end])
+      puts "* #{my_time_zone} (#{duration} hours of overlap)"
+      puts "#{formated_time(full_overlap[:start], true)} - #{formated_time(full_overlap[:end])}".green
+      timeline(full_overlap[:start], full_overlap[:end])
     end
 
 

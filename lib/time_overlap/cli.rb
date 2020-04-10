@@ -3,50 +3,52 @@ require "thor"
 module TimeOverlap
   class CLI < Thor
 
-    desc 'show',
+    desc 'expert',
       "Usage:
-      `time_overlap show start_hour end_hour min_overlap base_zone other_zone(s)`
+      `time_overlap expert start_hour end_hour min_overlap base_zone other_zone(s)`
       Example:
-      `time_overlap show 8 16 4 Warsaw Bangkok`
+      `time_overlap expert 8 16 4 Warsaw Bangkok`
       "
-    def show(from, to, min_overlap, base_time_zone, *time_zones)
-      # TODO: Move to Presenter
-      puts "-" * 102
-      puts "*** Your overlap hours in #{time_zones} to #{base_time_zone} ***".center(102)
-      puts "-" * 102
+    def expert(from, to, min_overlap, base_time_zone, *time_zones)
+      puts "-" * Presenter::WIDTH
+      puts "*** Your overlap hours in #{time_zones.join(", ")} to #{base_time_zone} (Expert view) ***".center(102)
+      puts "-" * Presenter::WIDTH
 
-      time_zones.each do |zone_name|
+      raise "Min overlap (#{min_overlap}) need to be Integer from range (1..24)" if min_overlap.to_i.zero?
+
+      time_zones.each_with_index do |zone_name, index|
         TimeOverlap::Calculator.show(
           from: from.to_i,
           to: to.to_i,
           min_overlap: min_overlap.to_i,
           time_zone: base_time_zone,
           my_time_zone: zone_name,
-          team: false,
+          expert: true,
+          show_base: index == 0
         )
       end
     end
 
-    desc 'team',
+    desc 'light',
       "Usage:
-      `time_overlap team start_hour end_hour base_zone team_zone(s)`
+      `time_overlap light start_hour end_hour base_zone team_zone(s)`
       Example:
-      `time_overlap team 7 15 Warsaw Bangkok Chongqing Osaka Hobart Auckland Samoa`
+      `time_overlap light 7 15 Warsaw Bangkok Chongqing Osaka Hobart Auckland Samoa`
       "
-    def team(from, to, base_time_zone, *time_zones)
-      # TODO: Move to Presenter
-      puts "-" * 102
-      puts "*** Your overlap hours in #{time_zones} to #{base_time_zone} ***".center(102)
-      puts "-" * 102
+    def light(from, to, base_time_zone, *time_zones)
+      puts "-" * Presenter::WIDTH
+      puts "*** Your overlap hours in #{time_zones.join(", ")} to #{base_time_zone} (Light view) ***".center(102)
+      puts "-" * Presenter::WIDTH
 
-      time_zones.each do |zone_name|
+      time_zones.each_with_index do |zone_name, index|
         TimeOverlap::Calculator.show(
           from: from.to_i,
           to: to.to_i,
           min_overlap: 0,
           time_zone: base_time_zone,
           my_time_zone: zone_name,
-          team: true,
+          expert: false,
+          show_base: index == 0
         )
       end
     end

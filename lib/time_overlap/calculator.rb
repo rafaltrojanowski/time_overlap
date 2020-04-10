@@ -1,7 +1,7 @@
 module TimeOverlap
   class Calculator
 
-    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, team: false)
+    def initialize(from:, to:, time_zone:, my_time_zone:, min_overlap:, expert: true, show_base: true)
       @current_year = Time.current.year
       @current_month = Time.current.month
       @current_day = Time.current.day
@@ -15,7 +15,8 @@ module TimeOverlap
       @end_time = set_time(to)
       @duration = (end_time - start_time).to_i / 60 / 60
 
-      @team = team
+      @expert = expert
+      @show_base = show_base
 
       @data = {}
     end
@@ -67,9 +68,13 @@ module TimeOverlap
 
       throw_errors!
 
-      if @team
+      unless @expert
         @data.delete(:overlap_1)
         @data.delete(:overlap_2)
+      end
+
+      unless @show_base
+        @data.delete(:original)
       end
 
       present_result
