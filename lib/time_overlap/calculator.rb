@@ -119,10 +119,7 @@ module TimeOverlap
     end
 
     def throw_errors!
-      if @min_overlap > @duration
-        raise "Min overlap must be lower that duration"
-      end
-
+      raise "Min overlap must be lower that duration" if @min_overlap > @duration
       raise "Wrong Overlap 1" unless (data[:overlap_1][:end] - data[:overlap_1][:start]).to_i / 60 / 60 == duration
 
       if data[:overlap_2] && (data[:overlap_2][:end] - data[:overlap_2][:start]).to_i / 60 / 60 != duration

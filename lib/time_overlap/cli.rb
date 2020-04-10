@@ -10,6 +10,11 @@ module TimeOverlap
       `time_overlap show 8 16 4 Warsaw Bangkok`
       "
     def show(from, to, min_overlap, base_time_zone, *time_zones)
+      # TODO: Move to Presenter
+      puts "-" * 102
+      puts "*** Your overlap hours in #{time_zones} to #{base_time_zone} ***".center(102)
+      puts "-" * 102
+
       time_zones.each do |zone_name|
         TimeOverlap::Calculator.show(
           from: from.to_i,
@@ -29,6 +34,11 @@ module TimeOverlap
       `time_overlap team 7 15 Warsaw Bangkok Chongqing Osaka Hobart Auckland Samoa`
       "
     def team(from, to, base_time_zone, *time_zones)
+      # TODO: Move to Presenter
+      puts "-" * 102
+      puts "*** Your overlap hours in #{time_zones} to #{base_time_zone} ***".center(102)
+      puts "-" * 102
+
       time_zones.each do |zone_name|
         TimeOverlap::Calculator.show(
           from: from.to_i,

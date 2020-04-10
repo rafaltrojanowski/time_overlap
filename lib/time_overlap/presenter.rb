@@ -30,8 +30,7 @@ module TimeOverlap
       duration    = @data[:duration]
       min_overlap = @data[:min_overlap]
 
-      render_header
-      render_base
+      render_base         # TODO: do not render it twice for team
       render_min_overlap
       render_full_overlap
 
