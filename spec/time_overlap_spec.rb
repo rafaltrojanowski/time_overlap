@@ -30,7 +30,7 @@ RSpec.describe TimeOverlap::Calculator do
               min_overlap: 0,
               time_zone: 'Warsaw',
               my_time_zone: 'Warsaw',
-              team: true
+              expert: false
             )
           ).to eq({
             :duration => 2,
