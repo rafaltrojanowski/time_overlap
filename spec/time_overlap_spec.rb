@@ -21,6 +21,29 @@ RSpec.describe TimeOverlap::Calculator do
     end
   end
 
+  it "time_overlap team 8 12 Warsaw Warsaw Warsaw" do
+    Timecop.freeze(Time.local(2020, 04, 10, 18, 0, 0))
+
+    expect(described_class.show(
+              from: 10,
+              to: 12,
+              min_overlap: 0,
+              time_zone: 'Warsaw',
+              my_time_zone: 'Warsaw',
+              team: true
+            )
+          ).to eq({
+            :duration => 2,
+            :full_overlap => {:end=>Time.parse("2019-02-09 12:00:00.000000000 +0100"), :start=>Time.parse("2019-02-09 10:00:00.000000000 +0100")},
+            :min_overlap => 0,
+            :my_time_zone => "Warsaw",
+            :original => {:end=>Time.parse("2019-02-09 12:00:00.000000000 +0100"), :start=>Time.parse("2019-02-09 10:00:00.000000000 +0100")},
+            :time_zone => "Warsaw"
+          })
+
+    Timecop.return
+  end
+
   it "EST (-7:00) and Bangkok(+7:00)" do
     expect(described_class.show(
               from: 10,
