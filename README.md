@@ -34,13 +34,34 @@ Install it yourself as:
 
     $ time_overlap light 9 17 London Hanoi Sydney
 
+![screenshot](img/light.png)
+
 ### 2.2 expert
 
     $ time_overlap expert 9 17 4 London Hanoi Sydney
 
+![screenshot](img/expert.png)
+
 ### 2.2 list
 
     $ time_overlap list
+
+```
+List of available time zones:
+-----------------------------
+-12:00: International Date Line West
+-11:00: American Samoa
+-11:00: Midway Island
+-10:00: Hawaii
+-09:00: Alaska
+-08:00: Pacific Time (US & Canada)
+-08:00: Tijuana
+-07:00: Arizona
+-07:00: Chihuahua
+-07:00: Mazatlan
+-07:00: Mountain Time (US & Canada)
+(...)
+```
 
 ## Contributing
 
