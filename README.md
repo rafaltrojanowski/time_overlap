@@ -1,53 +1,57 @@
 # TimeOverlap
 
-Simple command line tool that allows to find overlap hours between two time zones, with visualization.
+Command line tool which visualizes time overlap for distributed teams.
 
-```
-$ time_overlap show 8 16 +00:00 Bangkok 4
-```
+## Features
 
-![screenshot](img/preview.png)
-
-Assuming that you are in Bangkok and the target time zone is UTC +0
-and you want to cover 4 hours - from 8:00 to 16:00.
-
-In most cases it suggests 2 options (cover first 4 hours: 8-12 or last: 12-16).
-
-More info: https://www.daxx.com/blog/offshore-team/time-difference-offshore-development
+* Handles as many time zones as you want
+* Allows to specify start and end time
+* Supports two modes: Light and Expert
+* Lists all possible time zones
+* Works well during Daylight Saving Time
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'time_overlap'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install time_overlap
 
-## Usage
+## Contents
 
+* [1. Usage](#1-usage)
+* [2. Commands](#2-commands)
+  * [2.1 light](#21-light)
+  * [2.2 expert](#22-expert)
+  * [2.3 list](#23-list)
 
-## Development
+## 1. Usage
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+    $ time_overlap help
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## 2. Commands
+
+### 2.1 light
+
+    $ time_overlap light 9 17 London Hanoi Sydney
+
+### 2.2 expert
+
+    $ time_overlap expert 9 17 4 London Hanoi Sydney
+
+### 2.2 list
+
+    $ time_overlap list
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/rafaltrojanowski/time_overlap. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+1. Fork it ( https://github.com/rafaltrojanowski/time_overlap/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
 
-## License
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+## Copyright
 
-## Code of Conduct
-
-Everyone interacting in the TimeOverlap project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rafaltrojanowski/time_overlap/blob/master/CODE_OF_CONDUCT.md).
+Copyright (c) 2020 Rafał Trojanowski. See LICENSE for further details.
