@@ -30,9 +30,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'activesupport'
-  spec.add_dependency 'thor'
-  spec.add_dependency 'colorize'
+  spec.add_dependency 'activesupport'  # Time zone support
+  spec.add_dependency 'thor'           # Cli support
+  spec.add_dependency 'colorize'       # Output
+  spec.add_dependency 'terminal-table' # Output
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 13.0"

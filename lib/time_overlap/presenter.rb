@@ -1,4 +1,5 @@
 require 'colorize'
+require 'terminal-table'
 
 module TimeOverlap
   class Presenter
@@ -27,9 +28,14 @@ module TimeOverlap
     end
 
     def generate_output
-      render_base
-      render_min_overlap
-      render_full_overlap
+      rows = []
+
+      rows << [base_content]
+      rows << [min_overlap_content]
+      rows << [full_overlap_content]
+
+      table = Terminal::Table.new :rows => rows
+      puts table
 
       @data
     end
@@ -68,43 +74,41 @@ module TimeOverlap
       @data[:full_overlap]
     end
 
-    def render_header
-      puts "-" * WIDTH
-      puts "*** Your overlap hours in #{my_time_zone} to #{time_zone} ***".center(WIDTH)
-      puts "-" * WIDTH
-    end
-
-    def render_base
+    def base_content
       return unless original
 
-      puts "* #{time_zone} (Base)"
-      puts "#{formated_time(original[:start], true)} - #{formated_time(original[:end])}".green
-      timeline(original[:start], original[:end])
+      output = ""
+
+      output << "* #{time_zone} (Base)\n"
+      output << "#{formated_time(original[:start], true)} - #{formated_time(original[:end])}\n".green
+
+      output << timeline(original[:start], original[:end])
     end
 
-    def render_min_overlap
+    def min_overlap_content
       return unless overlap_1
 
-      puts "* #{my_time_zone} #{EARLY_BIRD} (#{min_overlap} hour(s) of overlap)"
-      puts "#{formated_time(overlap_1[:start], true)} - #{formated_time(overlap_1[:end])}".green
-      timeline(overlap_1[:start], overlap_1[:end])
+      output = ""
+
+      output << "* #{my_time_zone} #{EARLY_BIRD} (#{min_overlap} hour(s) of overlap)\n"
+      output << "#{formated_time(overlap_1[:start], true)} - #{formated_time(overlap_1[:end])}\n".green
+      output << timeline(overlap_1[:start], overlap_1[:end])
 
       if overlap_2
-        puts "* #{my_time_zone} #{NIGHT_OWL} (#{min_overlap} hour(s) of overlap)"
-        puts "#{formated_time(overlap_2[:start], true)} - #{formated_time(overlap_2[:end])}".green
-        timeline(overlap_2[:start], overlap_2[:end])
+        output << "\n"
+        output << "* #{my_time_zone} #{NIGHT_OWL} (#{min_overlap} hour(s) of overlap)\n"
+        output << "#{formated_time(overlap_2[:start], true)} - #{formated_time(overlap_2[:end])}\n".green
+        output << timeline(overlap_2[:start], overlap_2[:end])
       end
+
+      output
     end
 
-    def render_full_overlap
-      puts "* #{my_time_zone} (#{duration} hours of overlap)"
-      puts "#{formated_time(full_overlap[:start], true)} - #{formated_time(full_overlap[:end])}".green
-      timeline(full_overlap[:start], full_overlap[:end])
-    end
-
-
-    def separator
-      puts (" " * WIDTH)
+    def full_overlap_content
+      output = ""
+      output << "* #{my_time_zone} (#{duration} hours of overlap)\n"
+      output << "#{formated_time(full_overlap[:start], true)} - #{formated_time(full_overlap[:end])}\n".green
+      output << timeline(full_overlap[:start], full_overlap[:end])
     end
 
     def formated_time(time, with_zone=false)
@@ -126,65 +130,75 @@ module TimeOverlap
         when 22..23
           then :blue
       end
+    end
 
+    def timeline(start_time, end_time)
+      timeline = ""
+
+      timeline << "    "
+
+      (0..23).map do |hour|
+        timeline << "%-4s" % hour
+      end
+
+      timeline << "\n"
+
+      timeline << AM
+
+      (0..23).map do |hour|
+        if start_time.hour < end_time.hour
+          if (start_time.hour..end_time.hour).cover?(hour)
+            if end_time.hour != hour
+              timeline << with_color(AVAILABLE_SLOT, hour)
+            else
+              timeline << with_color(EMPTY_SLOT, hour)
+            end
+          else
+            timeline << with_color(EMPTY_SLOT, hour)
+          end
+        else
+          if start_time.hour <= 12
+            if (end_time.hour..start_time.hour).cover?(hour)
+              if end_time.hour != hour
+                timeline << with_color(AVAILABLE_SLOT, hour)
+              else
+                timeline << with_color(EMPTY_SLOT, hour)
+              end
+            else
+              timeline << with_color(EMPTY_SLOT, hour)
+            end
+          else
+            if (end_time.hour..start_time.hour).cover?(hour)
+              if (start_time.hour == hour)
+                timeline << with_color(AVAILABLE_SLOT, hour)
+              else
+                timeline << with_color(EMPTY_SLOT, hour)
+              end
+            else
+              if end_time.hour != hour
+                timeline << with_color(AVAILABLE_SLOT, hour)
+              else
+                timeline << with_color(EMPTY_SLOT, hour)
+              end
+            end
+          end
+        end
+      end
+
+      timeline << PM
+      timeline << "\n"
+      timeline << separator
+
+
+      timeline
     end
 
     def with_color(string, hour)
       string.colorize(get_color(hour))
     end
 
-    def timeline(start_time, end_time)
-      print "    "
-      (0..23).each do |hour|
-        printf("%-4s", hour)
-      end
-
-      puts ""
-
-      print AM
-
-      (0..23).each do |hour|
-        if start_time.hour < end_time.hour
-          if (start_time.hour..end_time.hour).cover?(hour)
-            if end_time.hour != hour
-              print with_color(AVAILABLE_SLOT, hour)
-            else
-              print with_color(EMPTY_SLOT, hour)
-            end
-          else
-            print with_color(EMPTY_SLOT, hour)
-          end
-        else
-          if start_time.hour <= 12
-            if (end_time.hour..start_time.hour).cover?(hour)
-              if end_time.hour != hour
-                print with_color(AVAILABLE_SLOT, hour)
-              else
-                print with_color(EMPTY_SLOT, hour)
-              end
-            else
-              print with_color(EMPTY_SLOT, hour)
-            end
-          else
-            if (end_time.hour..start_time.hour).cover?(hour)
-              if (start_time.hour == hour)
-                print with_color(AVAILABLE_SLOT, hour)
-              else
-                print with_color(EMPTY_SLOT, hour)
-              end
-            else
-              if end_time.hour != hour
-                print with_color(AVAILABLE_SLOT, hour)
-              else
-                print with_color(EMPTY_SLOT, hour)
-              end
-            end
-          end
-        end
-      end
-      print PM
-      puts ""
-      separator
+    def separator
+      " " * WIDTH
     end
   end
 end

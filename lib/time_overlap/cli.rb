@@ -1,4 +1,6 @@
 require "thor"
+require 'terminal-table'
+
 
 module TimeOverlap
   class CLI < Thor
@@ -10,9 +12,11 @@ module TimeOverlap
       `time_overlap expert 8 16 4 Warsaw Bangkok`
       "
     def expert(from, to, min_overlap, base_time_zone, *time_zones)
-      puts "-" * Presenter::WIDTH
-      puts "*** Your overlap hours in #{time_zones.join(", ")} to #{base_time_zone} (Expert view) ***".center(102)
-      puts "-" * Presenter::WIDTH
+      rows = []
+      header = ""
+      header << "*** Your overlap hours in #{time_zones.join(", ")} to #{base_time_zone} (Expert view) ***\n".center(Presenter::WIDTH)
+      rows << [header]
+      puts Terminal::Table.new rows: rows, :style => { :width => Presenter::WIDTH + 4 }
 
       raise "Min overlap (#{min_overlap}) need to be Integer from range (1..24)" if min_overlap.to_i.zero?
 
@@ -24,7 +28,6 @@ module TimeOverlap
           time_zone: base_time_zone,
           my_time_zone: zone_name,
           expert: true,
-          show_base: index == 0
         )
       end
     end
@@ -36,9 +39,11 @@ module TimeOverlap
       `time_overlap light 7 15 Warsaw Bangkok Chongqing Osaka Hobart Auckland Samoa`
       "
     def light(from, to, base_time_zone, *time_zones)
-      puts "-" * Presenter::WIDTH
-      puts "*** Your overlap hours in #{time_zones.join(", ")} to #{base_time_zone} (Light view) ***".center(102)
-      puts "-" * Presenter::WIDTH
+      rows = []
+      header = ""
+      header << "*** Your overlap hours in #{time_zones.join(", ")} to #{base_time_zone} (Light view) ***".center(Presenter::WIDTH)
+      rows << [header]
+      puts Terminal::Table.new rows: rows, :style => { :width => Presenter::WIDTH + 4 }
 
       time_zones.each_with_index do |zone_name, index|
         TimeOverlap::Calculator.show(
@@ -48,7 +53,6 @@ module TimeOverlap
           time_zone: base_time_zone,
           my_time_zone: zone_name,
           expert: false,
-          show_base: index == 0
         )
       end
     end

@@ -73,10 +73,6 @@ module TimeOverlap
         @data.delete(:overlap_2)
       end
 
-      unless @show_base
-        @data.delete(:original)
-      end
-
       present_result
     end
 
