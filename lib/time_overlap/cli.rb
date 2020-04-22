@@ -1,7 +1,6 @@
 require "thor"
 require 'terminal-table'
 
-
 module TimeOverlap
   class CLI < Thor
 

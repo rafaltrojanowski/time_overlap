@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    time_overlap (0.1.2)
+    time_overlap (0.2.0)
       activesupport
       colorize
       terminal-table
@@ -44,7 +44,7 @@ GEM
     timecop (0.9.1)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
-    unicode-display_width (1.6.0)
+    unicode-display_width (1.7.0)
     zeitwerk (2.3.0)
 
 PLATFORMS
