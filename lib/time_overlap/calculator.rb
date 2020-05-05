@@ -26,45 +26,12 @@ module TimeOverlap
     end
 
     def execute
-      offset = duration - min_overlap
+      @data = build_data
 
-      start_time_in_my_time_zone = start_time.in_time_zone(my_time_zone)
-      end_time_in_my_time_zone = end_time.in_time_zone(my_time_zone)
-
-      overlap_1_start_time = (start_time - offset * 60 * 60).in_time_zone(my_time_zone)
-      overlap_1_end_time = (end_time - offset * 60 * 60).in_time_zone(my_time_zone)
-
-      overlap_2_start_time = (end_time - min_overlap * 60 * 60).in_time_zone(my_time_zone)
-      overlap_2_end_time = (overlap_2_start_time + duration * 60 * 60).in_time_zone(my_time_zone)
-
-      @data = {
-        original: {
-          start: start_time,
-          end: end_time
-        },
-        full_overlap: {
-          start: start_time_in_my_time_zone,
-          end: end_time_in_my_time_zone
-        },
-        overlap_1: {
-          start: overlap_1_start_time,
-          end: overlap_1_end_time,
-        },
-        overlap_2: {
-          start: overlap_2_start_time,
-          end: overlap_2_end_time
-        },
-        duration: duration,
-        min_overlap: min_overlap,
-        time_zone: time_zone,
-        my_time_zone: my_time_zone
-      }
-
-      if overlap_1_start_time == overlap_2_start_time &&
-        overlap_1_end_time == overlap_2_end_time
+      if @data[:overlap_1][:start] == @data[:overlap_2][:start] &&
+        @data[:overlap_1][:end] == @data[:overlap_2][:end]
           @data.delete(:overlap_2)
       end
-
 
       throw_errors!
 
@@ -89,6 +56,42 @@ module TimeOverlap
       :data,
       :duration
     )
+
+    def build_data
+      offset = duration - min_overlap
+
+      start_time_in_my_time_zone = start_time.in_time_zone(my_time_zone)
+      end_time_in_my_time_zone = end_time.in_time_zone(my_time_zone)
+
+      overlap_1_start_time = (start_time - offset * 60 * 60).in_time_zone(my_time_zone)
+      overlap_1_end_time = (end_time - offset * 60 * 60).in_time_zone(my_time_zone)
+
+      overlap_2_start_time = (end_time - min_overlap * 60 * 60).in_time_zone(my_time_zone)
+      overlap_2_end_time = (overlap_2_start_time + duration * 60 * 60).in_time_zone(my_time_zone)
+
+      {
+        original: {
+          start: start_time,
+          end: end_time
+        },
+        full_overlap: {
+          start: start_time_in_my_time_zone,
+          end: end_time_in_my_time_zone
+        },
+        overlap_1: {
+          start: overlap_1_start_time,
+          end: overlap_1_end_time,
+        },
+        overlap_2: {
+          start: overlap_2_start_time,
+          end: overlap_2_end_time
+        },
+        duration: duration,
+        min_overlap: min_overlap,
+        time_zone: time_zone,
+        my_time_zone: my_time_zone
+      }
+    end
 
     def present_result
       presenter_instance.generate_output
