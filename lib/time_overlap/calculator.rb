@@ -106,6 +106,10 @@ module TimeOverlap
 
       if offset.nil?
         zone = ActiveSupport::TimeZone.new(time_zone)
+        if zone.nil?
+          raise "Invalid Timezone: #{time_zone}"
+        end
+
         offset = zone.now.utc_offset
       end
 
